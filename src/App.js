@@ -1,7 +1,6 @@
-import React, { Component } from 'react'
-import './App.css';
-import StudentTable from './components/student-table';
+import React, { Component } from 'react';
 import StudentData from './students.json';
+import StudentTable from './components/student-table';
 import AddStudent from './components/add-student';
 
 class App extends Component{
@@ -9,6 +8,7 @@ class App extends Component{
     super(props);
     this.state={
       students: [],
+      minMax: {},
     }
   }
 
@@ -25,7 +25,8 @@ class App extends Component{
       }
     });
     console.log(studentsParsed);
-    this.setState({students: studentsParsed});
+    console.log(this.findMinMax(studentsParsed));
+    this.setState({students: studentsParsed, minMax: this.findMinMax(studentsParsed)});
   }
 
   //method for extracting student grades from original json
@@ -35,12 +36,12 @@ class App extends Component{
       var subject = gradesArray[i].substring(0, gradesArray[i].indexOf(' -'));
       var grade = gradesArray[i].slice(-1);
       obj[subject] = grade;
-  }
+    }
    return obj;
   }
 
   calculateGPA = (gradesObject) => {
-    const gradeValues = {"A":4, "B":3, "C":2, "D":1, "F":0};
+    const gradeValues = {"A+":4.00, "A":4.00, "A-":3.67, "B+":3.33, "B":3.00, "B-":2.67, "C+":2.33, "C":2, "C-":1.67, "D+":1.33, "D":1, "D-":0.67, "F":0};
     var sum = 0;
     for(let i = 0; i < Object.keys(gradesObject).length; i++){
       sum += gradeValues[Object.values(gradesObject)[i]];
@@ -49,28 +50,51 @@ class App extends Component{
   }
 
   addStudent = (newStudent) => {
+    //TODO: ASSIGN KEY //
     var newGrades = {...newStudent};
     delete newGrades['name'];
-    this.setState({students: [...this.state.students, {
+    var updatedStudents = [...this.state.students, {
       name: newStudent.name, 
       grades: newGrades, 
       gpa: this.calculateGPA(newGrades)
-    }]});
+    }]
+    this.setState({
+      students: updatedStudents, 
+      minMax: this.findMinMax(updatedStudents)},);
   }
 
   removeStudent = (student) => {
-    this.setState({
-      students: this.state.students.filter((value) =>{
-        return value !== student;
-      })
+    var updatedStudents = this.state.students.filter((value) =>{
+      return value !== student;
     })
+    this.setState({
+      students: updatedStudents,
+      minMax: this.findMinMax(updatedStudents)
+    })
+  }
+
+  findMinMax = (studentArr) => {
+    var gpas = studentArr.map((student) => {
+      return student.gpa;
+    });
+    var minStudents = studentArr.filter(student => student.gpa === Math.min(...gpas));
+    var maxStudents = studentArr.filter(student => student.gpa === Math.max(...gpas));
+    return {
+      min: minStudents,
+      max: maxStudents
+    }
   }
 
   render() {
     return (
       <React.Fragment>
         <AddStudent addStudent={this.addStudent} />
-        <StudentTable students={this.state.students} removeStudent={this.removeStudent} />
+        <StudentTable 
+        students={this.state.students}
+        minMax={this.state.minMax}
+        findMinMax={this.findMinMax}
+        removeStudent={this.removeStudent}
+        />
       </React.Fragment>
     );
   }

@@ -7,9 +7,22 @@ export class AddStudent extends Component{
     }
 
     onSubmit = (e) => {
-        e.preventDefault();  
-        this.props.addStudent(this.state);
-        // this.setState({name: '', grades: []}) 
+        e.preventDefault();
+        //validate name input
+        if(!(/^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$/.test(this.state.name))){
+            alert("Please enter a valid name");
+        }
+        //validate grades input
+        else if(
+            [this.state.Math, this.state.History, this.state.English, this.state.Science].filter((value) => 
+                {return !(/^[A-F]{1}[+-]{0,1}$/.test(value))}).length !== 0
+            ){
+            alert("Please enter valid grade values");
+        }
+        else{
+            this.props.addStudent(this.state);
+            this.setState({name: '', Math: '', History: '', English: '', Science: ''}) 
+        }
     }
 
     onChange = (e) => {
@@ -20,41 +33,43 @@ export class AddStudent extends Component{
     render(){
         return(
             <form onSubmit={this.onSubmit}>
-                <input
-                    type="text"
+                <input type="text"
                     name="name"
                     placeholder="Name"
+                    value={this.state.name}
                     required={true}
                     onChange={this.onChange}
                 />
-                <input
-                    type="text"
-                    name="Math"
-                    placeholder="Math"
-                    required={true}
-                    onChange={this.onChange}
-                />
-                <input
-                    type="text"
-                    name="History"
-                    placeholder="History"
-                    required={true}
-                    onChange={this.onChange}
-                />
-                <input
-                    type="text"
-                    name="English"
-                    placeholder="English"
-                    required={true}
-                    onChange={this.onChange}
-                />
-                <input
-                    type="text"
-                    name="Science"
-                    placeholder="Science"
-                    required={true}
-                    onChange={this.onChange}
-                />
+                <fieldset id="grades">
+                    <input type="text" maxlength="2"
+                        name="Math"
+                        placeholder="Math"
+                        value={this.state.Math}
+                        required={true}
+                        onChange={this.onChange}
+                    />
+                    <input type="text" maxlength="2"
+                        name="History"
+                        placeholder="History"
+                        value={this.state.History}
+                        required={true}
+                        onChange={this.onChange}
+                    />
+                    <input type="text" maxlength="2"
+                        name="English"
+                        placeholder="English"
+                        value={this.state.English}
+                        required={true}
+                        onChange={this.onChange}
+                    />
+                    <input type="text" maxlength="2"
+                        name="Science"
+                        placeholder="Science"
+                        value={this.state.Science}
+                        required={true}
+                        onChange={this.onChange}
+                    />
+                </fieldset>
                 <input
                     type="submit"
                     value="Add Student"
