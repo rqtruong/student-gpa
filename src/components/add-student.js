@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 
 export class AddStudent extends Component{
     state = {
@@ -8,6 +7,7 @@ export class AddStudent extends Component{
 
     onSubmit = (e) => {
         e.preventDefault();
+        // REQUIREMENT: Basic input validation.
         //validate name input
         if(!(/^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$/.test(this.state.name))){
             alert("Please enter a valid name");
@@ -41,28 +41,28 @@ export class AddStudent extends Component{
                     onChange={this.onChange}
                 />
                 <fieldset id="grades">
-                    <input type="text" maxlength="2"
+                    <input type="text" maxLength="2"
                         name="Math"
                         placeholder="Math"
                         value={this.state.Math}
                         required={true}
                         onChange={this.onChange}
                     />
-                    <input type="text" maxlength="2"
+                    <input type="text" maxLength="2"
                         name="History"
                         placeholder="History"
                         value={this.state.History}
                         required={true}
                         onChange={this.onChange}
                     />
-                    <input type="text" maxlength="2"
+                    <input type="text" maxLength="2"
                         name="English"
                         placeholder="English"
                         value={this.state.English}
                         required={true}
                         onChange={this.onChange}
                     />
-                    <input type="text" maxlength="2"
+                    <input type="text" maxLength="2"
                         name="Science"
                         placeholder="Science"
                         value={this.state.Science}

@@ -12,6 +12,22 @@ form #grades input {
   width: 3.5em;
 }
 
+form input[type=submit] {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  padding: 10px 25px;
+  line-height: 20px;
+  border-radius: 20px;
+  cursor: pointer;
+  -webkit-transition: 0.5s ease;
+  transition: 0.5s ease;
+}
+
+form input[type=submit]:hover {
+  background-color: #3395ff;
+}
+
 table {
   font-size: 16px;
   border-collapse: collapse;
@@ -24,5 +40,26 @@ table tr:nth-child(even) {
 table th, table td {
   padding: 15px;
   border-bottom: 1px solid gray;
+}
+
+table th button, table td button {
+  background: darkred;
+  color: #fff;
+  border: none;
+  padding: 5px 9px;
+  border-radius: 50%;
+  cursor: pointer;
+  -webkit-transition: 0.5s ease;
+  transition: 0.5s ease;
+}
+
+table th button:hover, table td button:hover {
+  background: #be0000;
+}
+
+@media (max-width: 575px) {
+  table th, table td {
+    padding: 15px 0;
+  }
 }
 /*# sourceMappingURL=index.css.map */

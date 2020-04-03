@@ -13,7 +13,7 @@ class App extends Component{
   }
 
   componentDidMount(){
-    // TODO: ASSIGN KEYS //
+    // REQUIREMENT: Uses provided json file as initial data.
     // Get array of objects from json
     let studentsRaw = [...StudentData.data];
     // Get only the necessary info (name, grades, gpa)
@@ -24,12 +24,10 @@ class App extends Component{
         gpa: this.calculateGPA(this.getGrades(student.grades)),
       }
     });
-    console.log(studentsParsed);
-    console.log(this.findMinMax(studentsParsed));
     this.setState({students: studentsParsed, minMax: this.findMinMax(studentsParsed)});
   }
 
-  //method for extracting student grades from original json
+  // method for extracting student grades from original json
   getGrades = (gradesArray) => {
     var obj = {};
     for(let i = 0; i < gradesArray.length; i++){
@@ -43,6 +41,7 @@ class App extends Component{
   calculateGPA = (gradesObject) => {
     const gradeValues = {"A+":4.00, "A":4.00, "A-":3.67, "B+":3.33, "B":3.00, "B-":2.67, "C+":2.33, "C":2, "C-":1.67, "D+":1.33, "D":1, "D-":0.67, "F":0};
     var sum = 0;
+    //take the average of all the grades
     for(let i = 0; i < Object.keys(gradesObject).length; i++){
       sum += gradeValues[Object.values(gradesObject)[i]];
     }
@@ -50,7 +49,6 @@ class App extends Component{
   }
 
   addStudent = (newStudent) => {
-    //TODO: ASSIGN KEY //
     var newGrades = {...newStudent};
     delete newGrades['name'];
     var updatedStudents = [...this.state.students, {
@@ -73,6 +71,8 @@ class App extends Component{
     })
   }
 
+  // REQUIREMENT: If a student is added with the highest or lowest GPA, the table will correctly highlight the student or students.
+  // This function will be called when a student is added or removed.
   findMinMax = (studentArr) => {
     var gpas = studentArr.map((student) => {
       return student.gpa;
@@ -89,7 +89,7 @@ class App extends Component{
     return (
       <React.Fragment>
         <AddStudent addStudent={this.addStudent} />
-        <StudentTable 
+        <StudentTable
         students={this.state.students}
         minMax={this.state.minMax}
         findMinMax={this.findMinMax}

@@ -1,3 +1,7 @@
+$submit-color: #007bff;
+$delete-color: darkred;
+$hover-transition: 0.5s ease;
+
 body {
     text-align: center;
     margin: 0;
@@ -7,13 +11,28 @@ body {
 }
 
 form {
-    //box-sizing: border-box;
-    #grades{
+    #grades {
         border: none;
-        input{
+        input {
             width: 3.5em;
         }
     }
+
+    input[type=submit] {
+        background-color: $submit-color;
+        color: #fff;
+        border: none;
+        padding: 10px 25px;
+        line-height: 20px;
+        border-radius: 20px;
+        cursor: pointer;
+        transition: $hover-transition;
+    }
+
+    input[type=submit]:hover {
+        background-color: lighten($submit-color, 10%);
+    }
+
 }
 
 table {
@@ -27,5 +46,27 @@ table {
     th, td {
         padding: 15px;
         border-bottom: 1px solid gray;
+
+        button {
+            background: $delete-color;
+            color: #fff;
+            border: none;
+            padding: 5px 9px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: $hover-transition;
+        }
+
+        button:hover{
+            background: lighten($delete-color, 10%);
+        }
+    }
+}
+
+@media (max-width:575px) {
+    table {
+        th, td {
+            padding: 15px 0;
+        }
     }
 }
